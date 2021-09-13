@@ -1,0 +1,8 @@
+RewriteEngine On
+
+#your website location
+RewriteBase /routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.+)$ index.php?uri=$1 [QSA,L]
