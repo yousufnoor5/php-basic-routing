@@ -32,5 +32,10 @@ $route->add("/user/{id}","user.php");
 //in user.php access id like this :
 $params['id'];
 
+//At the last of index.php file call notFound() method of Route for 404 error.
+$route->notFound("404 PAGE LOCATION");
+
+$route->notFound("404.php");
+
 ```
 
