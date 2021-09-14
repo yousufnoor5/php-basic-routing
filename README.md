@@ -20,7 +20,10 @@ RewriteRule ^(.+)$ index.php?uri=$1 [QSA,L]
 Now in index.php, you can create routes :
 
 ```php
+//Route instance
+$route = new Route();
 
+//Example
 $route->add("ROUTE ADDRESS","PHP FILE LOCATION FOR THIS ROUTE");
 
 //without parameter
