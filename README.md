@@ -27,6 +27,7 @@ $route = new Route();
 $route->add("ROUTE ADDRESS","PHP FILE LOCATION FOR THIS ROUTE");
 
 //without parameter
+$route->add("/", "home.php");
 $route->add("/download","download.php");
 
 //with parameter
