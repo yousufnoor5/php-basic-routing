@@ -5,10 +5,17 @@ class Route {
     private function simpleRoute($file, $route){
 
         //replacing first and last forward slashes
-        $route = preg_replace("/(^\/)|(\/$)/","",$route);
-        $reqUri =  preg_replace("/(^\/)|(\/$)/","",$_REQUEST['uri']);
+        //$_REQUEST['uri'] will be empty if req uri is /
+
+        if(!empty($_REQUEST['uri'])){
+            $route = preg_replace("/(^\/)|(\/$)/","",$route);
+            $reqUri =  preg_replace("/(^\/)|(\/$)/","",$_REQUEST['uri']);
+        }else{
+            $reqUri = "/";
+        }
 
         if($reqUri == $route){
+            $params = [];
             include($file);
             exit();
 
@@ -39,8 +46,13 @@ class Route {
         }
 
         //replacing first and last slashes
-        $route = preg_replace("/(^\/)|(\/$)/","",$route);
-        $reqUri =  preg_replace("/(^\/)|(\/$)/","",$_REQUEST['uri']);
+        //$_REQUEST['uri'] will be empty if req uri is /
+        if(!empty($_REQUEST['uri'])){
+            $route = preg_replace("/(^\/)|(\/$)/","",$route);
+            $reqUri =  preg_replace("/(^\/)|(\/$)/","",$_REQUEST['uri']);
+        }else{
+            $reqUri = "/";
+        }
 
         //exploding route address
         $uri = explode("/", $route);
@@ -62,15 +74,16 @@ class Route {
         //running for each loop to set the exact index number with reg expression
         //this will help in matching route
         foreach($indexNum as $key => $index){
-
-            //setting params with params names
-            $params[$paramKey[$key]] = $reqUri[$index];
-
-            //in case if req uri with param index is empty then return
+        
+             //in case if req uri with param index is empty then return
             //because url is not valid for this route
             if(empty($reqUri[$index])){
                 return;
             }
+            
+            //setting params with params names
+            $params[$paramKey[$key]] = $reqUri[$index];
+
 
             //this is to create a regex for comparing route address
             $reqUri[$index] = "{.*}";
@@ -97,13 +110,5 @@ class Route {
         exit();
     }
 }
-
-$route = new Route();
-
-$route->add("/user/{id}","user.php");
-
-$route->add("/download","download.php");
-
-$route->notFound("404.php");
 
 ?>
